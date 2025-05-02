@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,10 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {COLORS} from '../Constants/Colors';
-import {FONT_SIZE} from '../Constants/FontSize';
+import { COLORS } from '../Constants/Colors';
+import { FONT_SIZE } from '../Constants/FontSize';
 
-interface Props {}
+interface Props { }
 
 const HistoryOfChurch: FC<Props> = () => {
   return (
@@ -38,7 +38,7 @@ const HistoryOfChurch: FC<Props> = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          imageStyle={{opacity: 0.3}}></ImageBackground>
+          imageStyle={{ opacity: 0.3 }}></ImageBackground>
 
         {/* Content Card */}
         <View
@@ -48,7 +48,7 @@ const HistoryOfChurch: FC<Props> = () => {
             borderRadius: 20,
             padding: 15,
             shadowColor: '#000',
-            shadowOffset: {width: 0, height: 2},
+            shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.15,
             shadowRadius: 6,
             elevation: 5,
@@ -83,11 +83,11 @@ const HistoryOfChurch: FC<Props> = () => {
           </Text>
 
           {/* Gradient Button */}
-          <TouchableOpacity activeOpacity={0.7} style={{marginTop: 20}}>
+          <TouchableOpacity activeOpacity={0.7} style={{ marginTop: 20 }}>
             <LinearGradient
               colors={[COLORS.ButtonColor, '#2575fc']} // Button gradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 1}}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
               style={{
                 paddingVertical: 14,
                 borderRadius: 12,
@@ -99,6 +99,7 @@ const HistoryOfChurch: FC<Props> = () => {
                   fontSize: FONT_SIZE.font_14,
                   fontWeight: 'bold',
                   letterSpacing: 0.5,
+                  textAlign: 'center'
                 }}>
                 நமது சபை - தோற்றமும் வளர்ச்சியும்
               </Text>

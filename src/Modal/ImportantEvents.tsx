@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,14 @@ import {
   Image,
   TouchableOpacity,
   Linking,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {COLORS} from '../Constants/Colors';
-import LinearGradient from 'react-native-linear-gradient';
-import {FONT_SIZE} from '../Constants/FontSize';
+import { COLORS } from '../Constants/Colors';
+import { FONT_SIZE } from '../Constants/FontSize';
 
-interface Props {}
+interface Props { }
 
 const videoLinks = [
   {
@@ -39,146 +40,140 @@ const videoLinks = [
 ];
 
 const ImportantEvents: FC<Props> = () => {
+  const scrollRef = useRef<ScrollView>(null);
+  const [scrollX, setScrollX] = useState(0);
+  const scrollStep = 235; // approx width + margin
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    setScrollX(event.nativeEvent.contentOffset.x);
+  };
+
+  const handleScrollRight = () => {
+    scrollRef.current?.scrollTo({ x: scrollX + scrollStep, animated: true });
+  };
+
+  const handleScrollLeft = () => {
+    scrollRef.current?.scrollTo({
+      x: Math.max(scrollX - scrollStep, 0),
+      animated: true,
+    });
+  };
+
   return (
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: '#F0F7FF', // Updated background color (soft pastel)
-        borderRadius: 20,
-        marginTop: 20,
         padding: 15,
+        backgroundColor: COLORS.PrimaryColor,
+        borderRadius: 20,
+        marginTop: 15,
       }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <LinearGradient
-          colors={['#1D4ED8', '#60A5FA']} // Gradient from deep blue to light blue
+        <Text
           style={{
-            paddingVertical: 24,
-            paddingHorizontal: 16,
-            borderRadius: 15,
+            fontSize: FONT_SIZE.font_24,
+            fontWeight: 'bold',
+            textAlign: 'center',
             marginBottom: 20,
-            shadowColor: '#000',
-            shadowOffset: {width: 0, height: 5},
-            shadowOpacity: 0.3,
-            shadowRadius: 10,
-            elevation: 6,
-            justifyContent: 'center',
-            alignItems: 'center',
+            color: COLORS.White,
           }}>
-          <Text
-            style={{
-              fontSize: FONT_SIZE.font_24, // Slightly larger for emphasis
-              fontWeight: 'bold',
-              color: '#FFFFFF',
-              textAlign: 'center',
-              letterSpacing: 2, // A little more spacing to make it feel modern
-              textShadowColor: '#000',
-              textShadowOffset: {width: 1, height: 1},
-              textShadowRadius: 3, // Text shadow for a pop effect
-            }}>
-            மறக்க முடியா முக்கிய நிகழ்வுகள்
-          </Text>
-        </LinearGradient>
+          மறக்க முடியா முக்கிய நிகழ்வுகள்
+        </Text>
 
-        {/* Info Box */}
-        <View
+        <Text
           style={{
-            backgroundColor: '#C7D2FE', // Soft pastel light blue background for info box
-            padding: 20,
-            borderRadius: 15,
-            borderLeftWidth: 5,
-            borderLeftColor: '#1D4ED8', // Matching border color with the header
-            shadowColor: '#000',
-            shadowOffset: {width: 0, height: 2},
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 3,
+            fontSize: 16,
+            lineHeight: 24,
+            textAlign: 'justify',
             marginBottom: 20,
+            color: COLORS.White,
           }}>
-          <Text
+          நமது ஆலய வரலாற்றில் ஆண்டவர் அருளின ஒருசில தருணங்களை, நீங்கள்
+          வாழ்நாளெல்லாம் நினைவு கொள்வதற்கென காணொளிகளாக தொகுத்திருக்கிறோம்.
+          கீழ்கண்ட வலையொளி வாயிலாக அதனை கண்டுகளித்து ஆண்டவருடைய நாமத்தை
+          மகிமைப்படுத்துங்கள்.
+        </Text>
+
+        {/* Video Scroll with arrows */}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity onPress={handleScrollLeft} activeOpacity={0.8}>
+            <Icon name="chevron-back-circle" size={25} color={COLORS.White} />
+          </TouchableOpacity>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ref={scrollRef}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            contentContainerStyle={{
+              paddingHorizontal: 15,
+              alignItems: 'center',
+            }}
             style={{
-              fontSize: 16,
-              lineHeight: 26,
-              color: '#3B82F6', // Changed text color to blue variant
-              textAlign: 'justify',
+              flex: 1,
+              marginHorizontal: 5,
             }}>
-            நமது ஆலய வரலாற்றில் ஆண்டவர் அருளின ஒருசில தருணங்களை, நீங்கள்
-            வாழ்நாளெல்லாம் நினைவு கொள்வதற்கென காணொளிகளாக தொகுத்திருக்கிறோம்.
-            கீழ்கண்ட வலையொளி வாயிலாக அதனை கண்டுகளித்து ஆண்டவருடைய நாமத்தை
-            மகிமைப்படுத்துங்கள்.
-          </Text>
+            {videoLinks.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => Linking.openURL(item.url)}
+                activeOpacity={0.8}
+                style={{
+                  marginRight: 15,
+                }}>
+                <Image
+                  source={item.image}
+                  style={{
+                    width: 220, // reduced from 300
+                    height: 150, // adjusted height for aspect ratio
+                    borderRadius: 10,
+                  }}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+          <TouchableOpacity onPress={handleScrollRight} activeOpacity={0.8}>
+            <Icon
+              name="chevron-forward-circle"
+              size={25}
+              color={COLORS.White}
+            />
+          </TouchableOpacity>
         </View>
 
-        {/* Horizontal Scroll for Videos */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            gap: 15,
-            paddingBottom: 20,
-          }}>
-          {videoLinks.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => Linking.openURL(item.url)}
-              activeOpacity={0.8}
-              style={{
-                borderRadius: 15,
-                overflow: 'hidden',
-                shadowColor: '#000',
-                shadowOffset: {width: 0, height: 2},
-                shadowOpacity: 0.2,
-                shadowRadius: 6,
-                elevation: 5,
-                width: 300,
-              }}>
-              <Image
-                source={item.image}
-                style={{
-                  width: '100%',
-                  height: 200,
-                  borderRadius: 15,
-                  transform: [{scale: 1}],
-                }}
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-
-        {/* See All Button (moved to bottom) */}
+        {/* See All Button */}
         <TouchableOpacity
           style={{
-            alignSelf: 'center',
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: COLORS.White,
-            paddingHorizontal: 20,
+            justifyContent: 'center',
+            alignSelf: 'center',
+            marginTop: 20,
             paddingVertical: 12,
-            borderRadius: 30,
-            shadowColor: '#000',
-            shadowOffset: {width: 0, height: 2},
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 4,
-            borderColor: '#1D4ED8', // Updated button border color
             borderWidth: 2,
-            marginBottom: 5,
+            borderColor: COLORS.ButtonColor,
+            backgroundColor: COLORS.White,
+            borderRadius: 20,
+            width: 250,
+            height: 50,
           }}
-          activeOpacity={0.6}
-          onPress={() => {
-            Linking.openURL('https://www.youtube.com/@cmsimmanuel4864/streams');
-          }}>
+          activeOpacity={0.8}
+          onPress={() =>
+            Linking.openURL('https://www.youtube.com/@cmsimmanuel4864/streams')
+          }>
           <Text
             style={{
-              color: '#1D4ED8', // Updated text color for consistency with theme
-              fontWeight: '600',
               fontSize: 16,
-              marginRight: 10,
+              fontWeight: '600',
+              marginRight: 8,
+              color: COLORS.ButtonColor,
             }}>
             அனைத்தையும் காண
           </Text>
-          <Icon name="arrow-forward" size={18} color="#1D4ED8" />
+          <Icon name="arrow-forward" size={18} color={COLORS.ButtonColor} />
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

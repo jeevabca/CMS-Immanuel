@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,11 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Linking,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {COLORS} from '../../../Constants/Colors';
-import {FONT_SIZE} from '../../../Constants/FontSize';
+import { COLORS } from '../../../Constants/Colors';
+import { FONT_SIZE } from '../../../Constants/FontSize';
 import WorshipOrders from '../../../Modal/WorshipOrders';
 import SpecialWorships from '../../../Modal/SpecialWorships';
 import PrayerSupport from '../../../Modal/PrayerSupport';
@@ -19,12 +20,15 @@ import ImportantEvents from '../../../Modal/ImportantEvents';
 import BirthdayWish from '../../../Modal/BirthdayWish';
 import PhotoGallery from '../../../Modal/PhotoGallery';
 import DonationModal from '../../../Modal/Donation';
+import WeddingWish from '../../../Modal/WeddingWish';
 
-interface Props {}
+interface Props {
+  renderMenuIcon: () => void
+}
 
-const HomeViewer: FC<Props> = () => {
+const HomeViewer: FC<Props> = (props) => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.White}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
       {/* Header */}
       <View
         style={{
@@ -36,27 +40,27 @@ const HomeViewer: FC<Props> = () => {
           paddingBottom: 8,
           backgroundColor: COLORS.White,
           shadowColor: '#000',
-          shadowOffset: {width: 0, height: 5},
+          shadowOffset: { width: 0, height: 5 },
           shadowOpacity: 0.1,
           shadowRadius: 8,
           elevation: 6,
         }}>
         <Image
           source={require('../../../Assets/ChurchLogo.png')}
-          style={{width: 180, height: 50}}
+          style={{ width: 180, height: 50 }}
           resizeMode="contain"
         />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.renderMenuIcon()}>
           <Ionicons name="menu" size={32} color={COLORS.PrimaryColor} />
         </TouchableOpacity>
       </View>
 
       {/* Content */}
       <ScrollView
-        style={{flex: 1, paddingHorizontal: 16}}
-        contentContainerStyle={{paddingBottom: 40}}>
+        style={{ flex: 1, paddingHorizontal: 16 }}
+        contentContainerStyle={{ paddingBottom: 40 }}>
         {/* Welcome Text */}
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           <Text
             style={{
               color: COLORS.Black,
@@ -83,7 +87,7 @@ const HomeViewer: FC<Props> = () => {
         </View>
 
         {/* Descriptive Text */}
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           {[
             `நம்முடைய ஆண்டவராகிய இயேசு கிறிஸ்துவின் ஈடு இணையற்ற நாமத்தினாலே எமது ஆலய முகநூல் பக்கத்திற்கு அன்புடன் வரவேற்கிறோம்.`,
             `கிறிஸ்துவின் மேல் நாங்கள் வைத்திருக்கும் விசுவாசத்துடனே, அவருடைய திவ்விய அன்பினை ஒருவருக்கொருவர் பகிர்ந்து, ஐக்கியத்துடனே திருச்சபை குடும்ப உறுப்பினர்கள் அனைவருமாக ஒன்றாக கூடி, ஆலயத்திலே ஆண்டவரை ஆராதித்து மற்றவர்களுக்குச் சேவை செய்வதே எங்கள் பிரதான நோக்கம்.`,
@@ -109,8 +113,8 @@ const HomeViewer: FC<Props> = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={{
-            width: 280,
-            height: 50,
+            width: 300,
+            height: 40,
             backgroundColor: COLORS.ButtonColor,
             justifyContent: 'center',
             alignItems: 'center',
@@ -118,18 +122,22 @@ const HomeViewer: FC<Props> = () => {
             alignSelf: 'center',
             borderRadius: 25,
             shadowColor: '#000',
-            shadowOffset: {width: 0, height: 3},
+            shadowOffset: { width: 0, height: 3 },
             shadowOpacity: 0.2,
             shadowRadius: 8,
             elevation: 6,
             marginBottom: 5,
-          }}>
+          }}
+          onPress={() =>
+            Linking.openURL('https://www.youtube.com/@cmsimmanuel4864/streams')
+          }>
           <Text
             style={{
               color: COLORS.White,
-              fontSize: FONT_SIZE.font_16,
+              fontSize: FONT_SIZE.font_14,
               fontWeight: '600',
               letterSpacing: 1,
+              // textAlign: 'center',
             }}>
             சமீபத்திய ஆராதனையை காண
           </Text>
@@ -143,6 +151,7 @@ const HomeViewer: FC<Props> = () => {
         <HistoryOfChurch />
         <ImportantEvents />
         <BirthdayWish />
+        <WeddingWish />
         <DonationModal />
       </ScrollView>
     </SafeAreaView>

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import {
   View,
   Text,
@@ -7,10 +7,10 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {COLORS} from '../Constants/Colors';
-import {FONT_SIZE} from '../Constants/FontSize';
+import { COLORS } from '../Constants/Colors';
+import { FONT_SIZE } from '../Constants/FontSize';
 
-interface Props {}
+interface Props { }
 
 const BirthdayWish: FC<Props> = () => {
   const today = new Date();
@@ -34,87 +34,55 @@ const BirthdayWish: FC<Props> = () => {
   const formattedDate = `${dayOfMonth} ${month}`;
 
   const peopleWithSameBirthday = [
-    {name: 'Mr. Manova Robinson J'},
-    {name: 'Mr. John Doe'},
-    {name: 'Ms. Jane Smith'},
+    { name: 'Mr. Manova Robinson J' },
+    { name: 'Mr. John Doe' },
   ];
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: '#fcf4f4',
-        padding: 20,
-        marginTop: 20,
-        borderRadius: 20,
-      }}>
-      {/* Header Section */}
-      <View
-        style={{
-          paddingVertical: 20,
-          paddingHorizontal: 16,
-          borderRadius: 12,
-          marginBottom: 15,
-          shadowColor: '#fc6a64',
-          shadowOffset: {width: 0, height: 2},
-          shadowOpacity: 0.2,
-          shadowRadius: 6,
-          elevation: 4,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between', // Space out the elements
-        }}>
+    <SafeAreaView style={{ flex: 1, padding: 20, marginTop: 20 }}>
+      {/* Header */}
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text
-          style={{
-            flex: 1, // Allow the text to take remaining space
-            fontSize: 20,
-            fontWeight: 'bold',
-            color: '#fc6a64',
-            letterSpacing: 1,
-            flexShrink: 1, // Shrink text if necessary
-          }}>
+          style={{ flex: 1, fontSize: 20, fontWeight: 'bold', color: '#fc6a64' }}>
           இன்றைய பிறந்த நாள் வாழ்த்துக்கள்
         </Text>
         <Image
           source={require('../Assets/birthday-1.png')}
-          style={{
-            width: 85,
-            height: 80,
-          }}
+          style={{ width: 85, height: 80 }}
         />
       </View>
 
-      {/* Body Section */}
+      {/* Body */}
       <ImageBackground
         source={require('../Assets/birthday-2.png')}
-        resizeMode="none"
+        resizeMode="cover"
         imageStyle={{
           borderRadius: 12,
           opacity: 0.15,
         }}
         style={{
           backgroundColor: '#ffffff',
-          padding: 22,
+          padding: 20,
           borderRadius: 12,
-          shadowOffset: {width: 0, height: 2},
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 3,
           marginBottom: 20,
           justifyContent: 'center',
+          alignItems: 'center',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
         }}>
         <Text
           style={{
             fontSize: 18,
             fontWeight: 'bold',
             color: COLORS.Grey2,
-            lineHeight: 28,
+            lineHeight: 26,
             textAlign: 'center',
-            marginBottom: 20,
             fontFamily: 'Arial',
             textShadowColor: 'rgba(0, 0, 0, 0.2)',
-            textShadowOffset: {width: 1, height: 1},
+            textShadowOffset: { width: 1, height: 1 },
             textShadowRadius: 2,
+            marginBottom: 20,
           }}>
           இன்றைய நாளில் தங்களது பிறந்த நாளினை கொண்டாடும் எங்கள் அன்புக்குரிய
           திருச்சபை குடும்ப உறுப்பினர்களை ஆண்டவருடை நாமத்தில் அன்போடு
@@ -123,37 +91,22 @@ const BirthdayWish: FC<Props> = () => {
         </Text>
       </ImageBackground>
 
-      {/* Birthday Wishes with Images and Name in a Row */}
+      {/* People List */}
       {peopleWithSameBirthday.map((person, index) => (
         <View
           key={index}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 5,
-            marginBottom: 15,
+            marginBottom: 5,
             padding: 12,
-            backgroundColor: '#fcfcfc',
-            borderRadius: 15,
-            shadowColor: '#000',
-            shadowOffset: {width: 0, height: 3},
-            shadowOpacity: 0.1,
-            shadowRadius: 6,
-            elevation: 3,
+            paddingLeft: 20,
           }}>
-          {/* Birthday Profile Picture & Date */}
-          <View
-            style={{
-              position: 'relative',
-              marginRight: 10,
-            }}>
+          {/* Image & Date */}
+          <View style={{ position: 'relative', marginRight: 10 }}>
             <Image
               source={require('../Assets/bday-male.png')}
-              style={{
-                width: 55,
-                height: 55,
-                borderRadius: 50,
-              }}
+              style={{ width: 50, height: 50, borderRadius: 50 }}
               resizeMode="contain"
             />
             <Image
@@ -170,7 +123,7 @@ const BirthdayWish: FC<Props> = () => {
             <Text
               style={{
                 position: 'absolute',
-                transform: [{translateX: -14}, {translateY: -2}],
+                transform: [{ translateX: -16 }, { translateY: -2 }],
                 fontSize: 12,
                 fontWeight: 'bold',
                 color: '#fc6a64',
@@ -179,15 +132,13 @@ const BirthdayWish: FC<Props> = () => {
             </Text>
           </View>
 
-          {/* Name Text */}
+          {/* Name */}
           <Text
             style={{
               fontSize: FONT_SIZE.font_22,
               fontWeight: 'bold',
               color: '#fc6a64',
               flex: 1,
-              textAlign: 'left',
-              letterSpacing: 1,
               paddingLeft: 10,
             }}>
             {person.name}

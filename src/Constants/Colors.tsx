@@ -10,4 +10,5 @@ export const COLORS = {
   Placeholder: '#808080',
   ButtonColor: '#fc6a64',
   WorshipCards: '#fef0cc',
+  PrayRequest: '#e6bfce'
 };
